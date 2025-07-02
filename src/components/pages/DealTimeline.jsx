@@ -1,39 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import Draggable from 'react-draggable'
-import Card from '@/components/atoms/Card'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import Empty from '@/components/ui/Empty'
-import ApperIcon from '@/components/ApperIcon'
-import { leadService } from '@/services/api'
-
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import Draggable from "react-draggable";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import { leadService } from "@/services/api/leadService";
 const DealTimeline = () => {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [draggedDeal, setDraggedDeal] = useState(null)
-  const timelineRef = useRef(null)
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [draggedDeal, setDraggedDeal] = useState(null);
+  const timelineRef = useRef(null);
 
-  const loadData = async () => {
-    try {
-      setLoading(true)
-      setError('')
-      await leadService.getAll() // Keep for consistency but not using the data
-    } catch (err) {
-      setError('Failed to load deal timeline data')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  if (loading) return <Loading />
-  if (error) return <Error message={error} onRetry={loadData} />
-
-// Sample deal data with month ranges - now stateful for drag updates
+  // Sample deal data with month ranges - now stateful for drag updates
   const [deals, setDeals] = useState([
     { 
       id: 1,
@@ -90,82 +70,101 @@ const DealTimeline = () => {
       startMonth: 7, // August
       endMonth: 10,  // November
       color: 'bg-teal-500'
+}
+  ]);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      await leadService.getAll(); // Keep for consistency but not using the data
+    } catch (err) {
+      setError('Failed to load deal timeline data');
+    } finally {
+      setLoading(false);
     }
-  ])
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  if (loading) return <Loading />;
+  if (error) return <Error message={error} onRetry={loadData} />;
 
   const months = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ]
+  ];
 
   const getDealWidth = (startMonth, endMonth) => {
-    const monthSpan = endMonth - startMonth + 1
-    return `${(monthSpan / 12) * 100}%`
-  }
+    const monthSpan = endMonth - startMonth + 1;
+    return `${(monthSpan / 12) * 100}%`;
+  };
 
   const getDealPosition = (startMonth) => {
-    return `${(startMonth / 12) * 100}%`
-}
-
-  // Convert pixel position to month with snapping
+    return `${(startMonth / 12) * 100}%`;
+  };
+// Convert pixel position to month with snapping
   const pixelToMonth = (pixelX, timelineWidth) => {
-    const monthWidth = timelineWidth / 12
-    const month = Math.round(pixelX / monthWidth)
-    return Math.max(0, Math.min(11, month))
-  }
+    const monthWidth = timelineWidth / 12;
+    const month = Math.round(pixelX / monthWidth);
+    return Math.max(0, Math.min(11, month));
+  };
 
   // Handle drag for repositioning entire deal
   const handleDrag = (dealId, data) => {
-    if (!timelineRef.current) return
+    if (!timelineRef.current) return;
     
-    const timelineWidth = timelineRef.current.offsetWidth
-    const newStartMonth = pixelToMonth(data.x, timelineWidth)
+    const timelineWidth = timelineRef.current.offsetWidth;
+    const newStartMonth = pixelToMonth(data.x, timelineWidth);
     
     setDeals(prevDeals => 
       prevDeals.map(deal => {
         if (deal.id === dealId) {
-          const duration = deal.endMonth - deal.startMonth
-          const newEndMonth = Math.min(11, newStartMonth + duration)
+          const duration = deal.endMonth - deal.startMonth;
+          const newEndMonth = Math.min(11, newStartMonth + duration);
           return {
             ...deal,
             startMonth: newStartMonth,
             endMonth: newEndMonth
-          }
+          };
         }
-        return deal
+        return deal;
       })
-    )
-  }
+    );
+  };
 
   // Handle drag stop to finalize position
   const handleDragStop = (dealId, data) => {
-    setDraggedDeal(null)
-  }
+    setDraggedDeal(null);
+  };
 
   // Handle resize drag for adjusting deal duration
   const handleResizeDrag = (dealId, data, side) => {
-    if (!timelineRef.current) return
+    if (!timelineRef.current) return;
     
-    const timelineWidth = timelineRef.current.offsetWidth
-    const newMonth = pixelToMonth(data.x, timelineWidth)
+    const timelineWidth = timelineRef.current.offsetWidth;
+    const newMonth = pixelToMonth(data.x, timelineWidth);
     
     setDeals(prevDeals =>
       prevDeals.map(deal => {
         if (deal.id === dealId) {
           if (side === 'left') {
             // Dragging left edge - adjust start month
-            const newStartMonth = Math.min(newMonth, deal.endMonth)
-            return { ...deal, startMonth: Math.max(0, newStartMonth) }
+            const newStartMonth = Math.min(newMonth, deal.endMonth);
+            return { ...deal, startMonth: Math.max(0, newStartMonth) };
           } else {
             // Dragging right edge - adjust end month
-            const newEndMonth = Math.max(newMonth, deal.startMonth)
-            return { ...deal, endMonth: Math.min(11, newEndMonth) }
+            const newEndMonth = Math.max(newMonth, deal.startMonth);
+            return { ...deal, endMonth: Math.min(11, newEndMonth) };
           }
         }
-        return deal
+        return deal;
       })
-    )
-  }
+    );
+  };
+
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
       {/* Simple Header */}
@@ -190,9 +189,10 @@ const DealTimeline = () => {
               <div className="text-sm font-semibold text-gray-700">{month}</div>
               <div className="text-xs text-gray-500 mt-1">2024</div>
             </motion.div>
-          ))}
+))}
         </div>
-{/* Deal Timeline Bars */}
+
+        {/* Deal Timeline Bars */}
         <div ref={timelineRef} className="space-y-4 relative">
           {deals.map((deal, index) => (
             <motion.div
@@ -231,38 +231,47 @@ const DealTimeline = () => {
                     transition={{ delay: index * 0.1 + 0.3, duration: 0.6 }}
                     className={`absolute top-1 bottom-1 ${deal.color} rounded opacity-80 hover:opacity-100 transition-all cursor-move shadow-sm group`}
                     style={{
-                      minWidth: '60px', // Minimum width for dragging
+                      minWidth: '60px',
                       zIndex: draggedDeal === deal.id ? 10 : 1
                     }}
                   >
-                    {/* Left Resize Handle */}
+                    {/* Left resize handle */}
                     <Draggable
                       axis="x"
                       bounds="parent"
-                      position={{ x: 0, y: 0 }}
-                      onDrag={(e, data) => handleResizeDrag(deal.id, data, 'left')}
+                      onDrag={(e, data) => {
+                        try {
+                          handleResizeDrag(deal?.id, data, 'left');
+                        } catch (error) {
+                          console.error('Error during left resize drag:', error);
+                        }
+                      }}
                     >
                       <div className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity" />
                     </Draggable>
 
-                    {/* Deal Content */}
+                    {/* Deal content */}
                     <div className="flex items-center h-full px-3 pointer-events-none">
                       <span className="text-white text-sm font-medium truncate">
                         {deal.name}
                       </span>
                     </div>
 
-                    {/* Right Resize Handle */}
+                    {/* Right resize handle */}
                     <Draggable
                       axis="x"
                       bounds="parent"
-                      position={{ x: 0, y: 0 }}
-                      onDrag={(e, data) => handleResizeDrag(deal.id, data, 'right')}
+                      onDrag={(e, data) => {
+                        try {
+                          handleResizeDrag(deal?.id, data, 'right');
+                        } catch (error) {
+                          console.error('Error during right resize drag:', error);
+                        }
+                      }}
                     >
                       <div className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity" />
                     </Draggable>
 
-                    {/* Drag Indicator */}
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-60 transition-opacity pointer-events-none">
                       <ApperIcon name="GripHorizontal" size={16} className="text-white" />
                     </div>
@@ -323,7 +332,7 @@ const DealTimeline = () => {
         />
       )}
     </div>
-  )
-}
+);
+};
 
-export default DealTimeline
+export default DealTimeline;
