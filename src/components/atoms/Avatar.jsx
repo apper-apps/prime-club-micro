@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Avatar = ({ 
   src, 
@@ -8,6 +8,8 @@ const Avatar = ({
   className = '',
   ...props 
 }) => {
+  const [imageError, setImageError] = useState(false)
+  const [imageLoading, setImageLoading] = useState(!!src)
   const sizes = {
     xs: 'h-6 w-6 text-xs',
     sm: 'h-8 w-8 text-sm',
@@ -37,6 +39,15 @@ const Avatar = ({
     return colors[index]
   }
   
+const handleImageError = () => {
+    setImageError(true)
+    setImageLoading(false)
+  }
+
+  const handleImageLoad = () => {
+    setImageLoading(false)
+  }
+
   return (
     <div
       className={`
@@ -45,11 +56,14 @@ const Avatar = ({
       `}
       {...props}
     >
-      {src ? (
+      {src && !imageError ? (
         <img
           src={src}
-          alt={alt || name}
+          alt={alt || name || 'Avatar'}
           className="h-full w-full rounded-full object-cover"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+          loading="lazy"
         />
       ) : (
         <div className={`
