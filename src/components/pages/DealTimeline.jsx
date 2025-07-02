@@ -133,36 +133,53 @@ const DealTimeline = () => {
         return deal;
       })
     );
-  };
+};
 
   // Handle drag stop to finalize position
   const handleDragStop = (dealId, data) => {
     setDraggedDeal(null);
   };
 
-  // Handle resize drag for adjusting deal duration
-  const handleResizeDrag = (dealId, data, side) => {
-    if (!timelineRef.current) return;
+  // Handle resize operations with direct mouse events
+  const [resizing, setResizing] = useState({ dealId: null, side: null });
+
+  const handleResizeMouseDown = (e, dealId, side) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setResizing({ dealId, side });
     
-    const timelineWidth = timelineRef.current.offsetWidth;
-    const newMonth = pixelToMonth(data.x, timelineWidth);
-    
-    setDeals(prevDeals =>
-      prevDeals.map(deal => {
-        if (deal.id === dealId) {
-          if (side === 'left') {
-            // Dragging left edge - adjust start month
-            const newStartMonth = Math.min(newMonth, deal.endMonth);
-            return { ...deal, startMonth: Math.max(0, newStartMonth) };
-          } else {
-            // Dragging right edge - adjust end month
-            const newEndMonth = Math.max(newMonth, deal.startMonth);
-            return { ...deal, endMonth: Math.min(11, newEndMonth) };
+    const handleMouseMove = (moveEvent) => {
+      if (!timelineRef.current) return;
+      
+      const timelineRect = timelineRef.current.getBoundingClientRect();
+      const relativeX = moveEvent.clientX - timelineRect.left;
+      const timelineWidth = timelineRect.width;
+      const newMonth = pixelToMonth(relativeX, timelineWidth);
+      
+      setDeals(prevDeals =>
+        prevDeals.map(deal => {
+          if (deal.id === dealId) {
+            if (side === 'left') {
+              const newStartMonth = Math.min(newMonth, deal.endMonth);
+              return { ...deal, startMonth: Math.max(0, newStartMonth) };
+            } else {
+              const newEndMonth = Math.max(newMonth, deal.startMonth);
+              return { ...deal, endMonth: Math.min(11, newEndMonth) };
+            }
           }
-        }
-        return deal;
-      })
-    );
+          return deal;
+        })
+      );
+    };
+
+    const handleMouseUp = () => {
+      setResizing({ dealId: null, side: null });
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   };
 
   return (
@@ -235,20 +252,11 @@ const DealTimeline = () => {
                       zIndex: draggedDeal === deal.id ? 10 : 1
                     }}
                   >
-                    {/* Left resize handle */}
-                    <Draggable
-                      axis="x"
-                      bounds="parent"
-                      onDrag={(e, data) => {
-                        try {
-                          handleResizeDrag(deal?.id, data, 'left');
-                        } catch (error) {
-                          console.error('Error during left resize drag:', error);
-                        }
-                      }}
-                    >
-                      <div className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity" />
-                    </Draggable>
+{/* Left resize handle */}
+                    <div 
+                      className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
+                      onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'left')}
+                    />
 
                     {/* Deal content */}
                     <div className="flex items-center h-full px-3 pointer-events-none">
@@ -258,19 +266,10 @@ const DealTimeline = () => {
                     </div>
 
                     {/* Right resize handle */}
-                    <Draggable
-                      axis="x"
-                      bounds="parent"
-                      onDrag={(e, data) => {
-                        try {
-                          handleResizeDrag(deal?.id, data, 'right');
-                        } catch (error) {
-                          console.error('Error during right resize drag:', error);
-                        }
-                      }}
-                    >
-                      <div className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity" />
-                    </Draggable>
+                    <div 
+                      className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
+                      onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'right')}
+                    />
 
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-60 transition-opacity pointer-events-none">
                       <ApperIcon name="GripHorizontal" size={16} className="text-white" />
