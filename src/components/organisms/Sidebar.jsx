@@ -6,10 +6,11 @@ import ApperIcon from '@/components/ApperIcon'
 const Sidebar = ({ onClose }) => {
   const location = useLocation()
   
-  const navigation = [
+const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: 'LayoutDashboard' },
     { name: 'Pipeline', href: '/pipeline', icon: 'GitBranch' },
     { name: 'Calendar', href: '/calendar', icon: 'Calendar' },
+    { name: 'Deal Timeline', href: '/deal-timeline', icon: 'Timeline' },
     { name: 'Leaderboard', href: '/leaderboard', icon: 'Trophy' },
     { name: 'Leads', href: '/leads', icon: 'Users' },
   ]

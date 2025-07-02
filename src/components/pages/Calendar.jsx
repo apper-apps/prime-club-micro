@@ -255,73 +255,7 @@ const Calendar = () => {
             </div>
           )}
         </Card>
-      </div>
-
-      {/* Calendar Roadmap */}
-      <Card padding="lg">
-        <div className="flex items-center mb-6">
-          <ApperIcon name="Map" className="mr-3 h-6 w-6 text-primary-600" />
-          <h2 className="text-xl font-bold text-gray-900">Deal Timeline Roadmap</h2>
-        </div>
-        
-        <div className="space-y-6">
-          {/* January to February */}
-          <div className="border-l-4 border-primary-500 pl-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">January - February 2024</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { name: 'Canva Enterprise', value: 85000, stage: 'Negotiation' },
-                { name: 'Notion Pro Plan', value: 45000, stage: 'Meeting Done' },
-                { name: 'ClickUp Business', value: 32000, stage: 'Qualified' }
-              ].map((deal, index) => (
-                <motion.div
-                  key={deal.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-4 bg-gradient-to-r from-primary-50 to-primary-100 rounded-lg border border-primary-200"
-                >
-                  <h4 className="font-semibold text-gray-900">{deal.name}</h4>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-primary-700 font-medium">
-                      ${deal.value.toLocaleString()}
-                    </span>
-                    <Badge variant="primary" size="sm">{deal.stage}</Badge>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* February to April */}
-          <div className="border-l-4 border-green-500 pl-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">February - April 2024</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { name: 'ClickUp Enterprise', value: 125000, stage: 'Negotiation' },
-                { name: 'Ahrefs Pro', value: 78000, stage: 'Meeting Booked' },
-                { name: 'Scribe Business', value: 25000, stage: 'Connected' }
-              ].map((deal, index) => (
-                <motion.div
-                  key={deal.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 + 0.3 }}
-                  className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200"
-                >
-                  <h4 className="font-semibold text-gray-900">{deal.name}</h4>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-green-700 font-medium">
-                      ${deal.value.toLocaleString()}
-                    </span>
-                    <Badge variant="success" size="sm">{deal.stage}</Badge>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Card>
+</div>
     </div>
   )
 }
