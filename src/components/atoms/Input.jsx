@@ -34,8 +34,8 @@ const Input = ({
           value={value}
           onChange={onChange}
           disabled={disabled}
-          className={`
-            block w-full rounded-lg border-2 transition-colors duration-200
+className={`
+            block w-full rounded-xl border-2 transition-all duration-200 font-medium
             ${icon ? 'pl-10' : 'pl-4'} pr-4 py-3
             ${error 
               ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
@@ -44,7 +44,7 @@ const Input = ({
             ${disabled ? 'bg-gray-50 cursor-not-allowed' : 'bg-white'}
             focus:outline-none focus:ring-2 focus:ring-opacity-50
             placeholder-gray-400 text-gray-900
-            shadow-sm hover:shadow-md focus:shadow-lg
+            shadow-soft hover:shadow-card focus:shadow-glow
           `}
           {...props}
         />

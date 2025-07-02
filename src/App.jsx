@@ -11,8 +11,8 @@ import Leads from '@/components/pages/Leads'
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-white">
+<BrowserRouter>
+      <div className="min-h-screen bg-gradient-to-br from-warm-50 via-white to-primary-50">
         <Layout>
 <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -24,17 +24,18 @@ function App() {
             <Route path="/leads" element={<Leads />} />
           </Routes>
         </Layout>
-        <ToastContainer
+<ToastContainer
           position="top-right"
-          autoClose={3000}
+          autoClose={4000}
           hideProgressBar={false}
-          newestOnTop={false}
+          newestOnTop={true}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           pauseOnHover
           theme="light"
+          toastClassName="backdrop-blur-sm"
           style={{ zIndex: 9999 }}
         />
       </div>

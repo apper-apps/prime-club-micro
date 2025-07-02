@@ -111,8 +111,8 @@ const DealTimeline = () => {
     <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
       {/* Enhanced Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-        <div className="space-y-2">
-          <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 bg-clip-text text-transparent">
+<div className="space-y-2">
+          <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary-600 via-coral-600 to-primary-800 bg-clip-text text-transparent">
             Deal Timeline
           </h1>
           <div className="flex items-center space-x-4 text-sm text-gray-600">

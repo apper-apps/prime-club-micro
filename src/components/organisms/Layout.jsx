@@ -6,8 +6,8 @@ import Header from '@/components/organisms/Header'
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
-  return (
-    <div className="flex h-screen bg-gray-50">
+return (
+    <div className="flex h-screen bg-gradient-to-br from-warm-50 via-white to-primary-50">
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <Sidebar />

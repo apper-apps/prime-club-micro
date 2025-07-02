@@ -63,11 +63,11 @@ const Calendar = () => {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+<div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-coral-600 bg-clip-text text-transparent">
             Calendar
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-600 mt-2 font-medium">
             {format(currentDate, 'MMMM yyyy')} • {meetings.length} meetings scheduled
           </p>
         </div>

@@ -79,9 +79,9 @@ const Dashboard = () => {
           subtitle="In pipeline"
           icon="GitBranch"
           color="info"
+color="secondary"
         />
         <MetricCard
-          title="Pipeline Value"
           value={`$${(totalValue / 1000).toFixed(0)}K`}
           icon="DollarSign"
           trend="up"
