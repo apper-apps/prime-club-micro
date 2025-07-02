@@ -41,7 +41,7 @@ return (
               <p className="text-sm font-semibold text-gray-900">Sarah Johnson</p>
               <p className="text-xs text-gray-500 font-medium">Sales Manager</p>
             </div>
-            <Avatar name="Sarah Johnson" size="lg" className="ring-2 ring-primary-100" />
+<Avatar name="Sarah Johnson" size="lg" className="ring-2 ring-gold-100" />
             <ApperIcon name="ChevronDown" className="h-4 w-4 text-gray-400" />
           </div>
         </div>

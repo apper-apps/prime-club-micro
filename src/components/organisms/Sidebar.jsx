@@ -89,7 +89,7 @@ return (
       <div className="p-4 border-t border-gray-100">
         <div className="bg-gradient-to-r from-warm-50 to-primary-50 rounded-xl p-4 border border-primary-100">
           <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 bg-gradient-to-br from-primary-500 to-coral-600 rounded-xl flex items-center justify-center shadow-soft">
+<div className="h-10 w-10 bg-gradient-to-br from-gold-500 to-teal-500 rounded-xl flex items-center justify-center shadow-soft">
               <ApperIcon name="Zap" className="h-5 w-5 text-white" />
             </div>
             <div>

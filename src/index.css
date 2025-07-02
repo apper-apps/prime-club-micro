@@ -92,9 +92,9 @@
 }
 
 .Toastify__toast--warning {
-  background: linear-gradient(135deg, #ffc72c, #ffaa00);
+  background: linear-gradient(135deg, #f5a623, #e8951e);
   color: white;
-  box-shadow: 0 8px 32px rgba(255, 199, 44, 0.3);
+  box-shadow: 0 8px 32px rgba(245, 166, 35, 0.3);
 }
 
 .Toastify__progress-bar {

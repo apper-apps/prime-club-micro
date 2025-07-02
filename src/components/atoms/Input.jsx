@@ -37,9 +37,9 @@ const Input = ({
 className={`
             block w-full rounded-xl border-2 transition-all duration-200 font-medium
             ${icon ? 'pl-10' : 'pl-4'} pr-4 py-3
-            ${error 
+${error 
               ? 'border-red-300 focus:border-red-500 focus:ring-red-500' 
-              : 'border-gray-200 focus:border-primary-500 focus:ring-primary-500'
+              : 'border-gray-200 focus:border-gold-500 focus:ring-gold-500'
             }
             ${disabled ? 'bg-gray-50 cursor-not-allowed' : 'bg-white'}
             focus:outline-none focus:ring-2 focus:ring-opacity-50

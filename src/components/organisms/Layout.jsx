@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
 return (
-    <div className="flex h-screen bg-gradient-to-br from-warm-50 via-white to-primary-50">
+<div className="flex h-screen bg-gradient-to-br from-cream-50 via-white to-sage-50">
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <Sidebar />
