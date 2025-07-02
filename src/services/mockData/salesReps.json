@@ -1,0 +1,56 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "photo": "https://images.unsplash.com/photo-1494790108755-2616b612b1a0?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 12,
+    "revenue": 485000,
+    "winRate": 68.5,
+    "isHunterOfMonth": true
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 10,
+    "revenue": 425000,
+    "winRate": 64.2,
+    "isHunterOfMonth": false
+  },
+  {
+    "Id": 3,
+    "name": "Jessica Rodriguez",
+    "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 8,
+    "revenue": 380000,
+    "winRate": 61.8,
+    "isHunterOfMonth": false
+  },
+  {
+    "Id": 4,
+    "name": "David Park",
+    "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 9,
+    "revenue": 365000,
+    "winRate": 59.3,
+    "isHunterOfMonth": false
+  },
+  {
+    "Id": 5,
+    "name": "Emily Watson",
+    "photo": "https://images.unsplash.com/photo-1517841905240-472982c86b84?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 7,
+    "revenue": 320000,
+    "winRate": 56.7,
+    "isHunterOfMonth": false
+  },
+  {
+    "Id": 6,
+    "name": "Alex Turner",
+    "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    "dealsWon": 6,
+    "revenue": 285000,
+    "winRate": 54.1,
+    "isHunterOfMonth": false
+  }
+]

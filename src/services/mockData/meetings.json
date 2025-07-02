@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "leadId": 1,
+    "title": "TechCorp Solutions - Product Demo",
+    "startTime": "2024-01-22T10:00:00.000Z",
+    "endTime": "2024-01-22T11:00:00.000Z",
+    "location": "Zoom Meeting",
+    "attendees": ["john.smith@techcorp.com", "sarah.johnson@primeclub.com"]
+  },
+  {
+    "Id": 2,
+    "leadId": 2,
+    "title": "Digital Innovations - Follow-up Call",
+    "startTime": "2024-01-22T14:00:00.000Z",
+    "endTime": "2024-01-22T14:30:00.000Z",
+    "location": "Phone Call",
+    "attendees": ["emily.davis@diginnovations.com", "michael.chen@primeclub.com"]
+  },
+  {
+    "Id": 3,
+    "leadId": 5,
+    "title": "Enterprise Plus - Technical Demo",
+    "startTime": "2024-01-22T16:00:00.000Z",
+    "endTime": "2024-01-22T17:30:00.000Z",
+    "location": "Microsoft Teams",
+    "attendees": ["mark.thompson@enterpriseplus.com", "sarah.johnson@primeclub.com", "tech.support@primeclub.com"]
+  },
+  {
+    "Id": 4,
+    "leadId": 3,
+    "title": "Global Dynamics - Discovery Call",
+    "startTime": "2024-01-23T09:00:00.000Z",
+    "endTime": "2024-01-23T09:45:00.000Z",
+    "location": "Google Meet",
+    "attendees": ["robert.wilson@globaldynamics.com", "jessica.rodriguez@primeclub.com"]
+  },
+  {
+    "Id": 5,
+    "leadId": 6,
+    "title": "CloudFirst Technologies - Technical Demo",
+    "startTime": "2024-01-23T11:00:00.000Z",
+    "endTime": "2024-01-23T12:00:00.000Z",
+    "location": "Zoom Meeting",
+    "attendees": ["jennifer.lee@cloudfirst.com", "michael.chen@primeclub.com"]
+  },
+  {
+    "Id": 6,
+    "leadId": 10,
+    "title": "ScaleUp Solutions - ROI Discussion",
+    "startTime": "2024-01-23T15:30:00.000Z",
+    "endTime": "2024-01-23T16:00:00.000Z",
+    "location": "Phone Call",
+    "attendees": ["amanda.white@scaleup.com", "michael.chen@primeclub.com"]
+  },
+  {
+    "Id": 7,
+    "leadId": 7,
+    "title": "InnovateLab - Proposal Presentation",
+    "startTime": "2024-01-24T10:30:00.000Z",
+    "endTime": "2024-01-24T11:30:00.000Z",
+    "location": "Microsoft Teams",
+    "attendees": ["alex.rodriguez@innovatelab.com", "jessica.rodriguez@primeclub.com"]
+  },
+  {
+    "Id": 8,
+    "leadId": 11,
+    "title": "Digital Transformation Inc - Initial Meeting",
+    "startTime": "2024-01-24T14:00:00.000Z",
+    "endTime": "2024-01-24T15:00:00.000Z",
+    "location": "Zoom Meeting",
+    "attendees": ["steven.garcia@digitaltrans.com", "jessica.rodriguez@primeclub.com"]
+  },
+  {
+    "Id": 9,
+    "leadId": 9,
+    "title": "FutureTech Systems - Contract Review",
+    "startTime": "2024-01-25T09:00:00.000Z",
+    "endTime": "2024-01-25T10:00:00.000Z",
+    "location": "Conference Room A",
+    "attendees": ["kevin.martinez@futuretech.com", "sarah.johnson@primeclub.com", "legal@primeclub.com"]
+  },
+  {
+    "Id": 10,
+    "leadId": 1,
+    "title": "TechCorp Solutions - Final Negotiation",
+    "startTime": "2024-01-25T16:00:00.000Z",
+    "endTime": "2024-01-25T17:00:00.000Z",
+    "location": "Phone Call",
+    "attendees": ["john.smith@techcorp.com", "sarah.johnson@primeclub.com"]
+  }
+]
