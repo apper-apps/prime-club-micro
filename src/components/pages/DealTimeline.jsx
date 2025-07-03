@@ -89,10 +89,14 @@ const [loading, setLoading] = useState(true);
 useEffect(() => {
     const initializeData = async () => {
       try {
+        setLoading(true);
+        setError(null);
         await loadData();
       } catch (err) {
         console.error('Failed to load timeline data:', err);
         setError('Failed to load timeline data. Please try again.');
+      } finally {
+        setLoading(false);
       }
     };
     
@@ -184,28 +188,37 @@ useEffect(() => {
     e.preventDefault();
     setResizing({ dealId, side });
     
-    const handleMouseMove = (moveEvent) => {
+const handleMouseMove = (moveEvent) => {
       if (!timelineRef.current) return;
       
-      const timelineRect = timelineRef.current.getBoundingClientRect();
-      const relativeX = moveEvent.clientX - timelineRect.left;
-      const timelineWidth = timelineRect.width;
-      const newMonth = pixelToMonth(relativeX, timelineWidth);
-      
-      setDeals(prevDeals =>
-        prevDeals.map(deal => {
-          if (deal.id === dealId) {
-            if (side === 'left') {
-              const newStartMonth = Math.min(newMonth, deal.endMonth);
-              return { ...deal, startMonth: Math.max(0, newStartMonth) };
-            } else {
-              const newEndMonth = Math.max(newMonth, deal.startMonth);
-              return { ...deal, endMonth: Math.min(11, newEndMonth) };
+      try {
+        const timelineRect = timelineRef.current.getBoundingClientRect();
+        if (!timelineRect) return;
+        
+        const relativeX = moveEvent.clientX - timelineRect.left;
+        const timelineWidth = timelineRect.width;
+        
+        if (timelineWidth <= 0) return;
+        
+        const newMonth = pixelToMonth(relativeX, timelineWidth);
+        
+        setDeals(prevDeals =>
+          prevDeals?.map(deal => {
+            if (deal?.id === dealId) {
+              if (side === 'left') {
+                const newStartMonth = Math.min(newMonth, deal.endMonth || 11);
+                return { ...deal, startMonth: Math.max(0, newStartMonth) };
+              } else {
+                const newEndMonth = Math.max(newMonth, deal.startMonth || 0);
+                return { ...deal, endMonth: Math.min(11, newEndMonth) };
+              }
             }
-          }
-          return deal;
-        })
-      );
+            return deal;
+          }) || []
+        );
+      } catch (error) {
+        console.error('Error in handleMouseMove:', error);
+      }
     };
 
     const handleMouseUp = () => {
@@ -268,44 +281,44 @@ useEffect(() => {
               {/* Deal Bar - Desktop Draggable Version */}
               <div className="hidden md:block">
 {timelineReady && timelineRef.current ? (
-                  <Draggable
+<Draggable
                     axis="x"
                     bounds="parent"
                     position={{
-                      x: Math.max(0, (deal.startMonth / 12) * timelineRef.current.offsetWidth),
+                      x: Math.max(0, (deal.startMonth / 12) * (timelineRef.current?.offsetWidth || 0)),
                       y: 0
                     }}
-                    onDrag={(e, data) => handleDrag(deal.id, data)}
-                    onStop={(e, data) => handleDragStop(deal.id, data)}
-                    onStart={() => setDraggedDeal(deal.id)}
+                    onDrag={(e, data) => handleDrag(deal?.id, data)}
+                    onStop={(e, data) => handleDragStop(deal?.id, data)}
+                    onStart={() => setDraggedDeal(deal?.id)}
                   >
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: getDealWidth(deal.startMonth, deal.endMonth) }}
+                      animate={{ width: getDealWidth(deal?.startMonth || 0, deal?.endMonth || 0) }}
                       transition={{ delay: index * 0.1 + 0.3, duration: 0.6 }}
-                      className={`absolute top-1 bottom-1 ${deal.color} rounded opacity-80 hover:opacity-100 transition-all cursor-move shadow-sm group`}
+                      className={`absolute top-1 bottom-1 ${deal?.color || 'bg-gray-500'} rounded opacity-80 hover:opacity-100 transition-all cursor-move shadow-sm group`}
                       style={{
                         minWidth: '60px',
-                        zIndex: draggedDeal === deal.id ? 10 : 1
+                        zIndex: draggedDeal === deal?.id ? 10 : 1
                       }}
                     >
                       {/* Left resize handle */}
                       <div 
                         className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
-                        onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'left')}
+                        onMouseDown={(e) => handleResizeMouseDown(e, deal?.id, 'left')}
                       />
 
                       {/* Deal content */}
                       <div className="flex items-center h-full px-3 pointer-events-none">
                         <span className="text-white text-sm font-medium truncate">
-                          {deal.name}
+                          {deal?.name || 'Untitled Deal'}
                         </span>
                       </div>
 
                       {/* Right resize handle */}
                       <div 
                         className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
-                        onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'right')}
+                        onMouseDown={(e) => handleResizeMouseDown(e, deal?.id, 'right')}
                       />
 
                       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-60 transition-opacity pointer-events-none">

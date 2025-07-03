@@ -1,6 +1,6 @@
 [
   {
-    "Id": 1,
+    "id": 1,
     "name": "John Smith",
     "company": "TechCorp Solutions",
     "email": "john.smith@techcorp.com",
@@ -14,7 +14,7 @@
     "nextAction": "Send proposal"
   },
   {
-    "Id": 2,
+    "id": 2,
     "name": "Emily Davis",
     "company": "Digital Innovations",
     "email": "emily.davis@diginnovations.com",
@@ -28,7 +28,7 @@
     "nextAction": "Follow up on pricing"
   },
   {
-    "Id": 3,
+    "id": 3,
     "name": "Robert Wilson",
     "company": "Global Dynamics",
     "email": "robert.wilson@globaldynamics.com",
@@ -42,7 +42,7 @@
     "nextAction": "Schedule discovery call"
   },
   {
-    "Id": 4,
+    "id": 4,
     "name": "Lisa Anderson",
     "company": "StartupHQ",
     "email": "lisa.anderson@startuphq.com",
@@ -56,7 +56,7 @@
     "nextAction": "Onboarding kickoff"
   },
   {
-    "Id": 5,
+    "id": 5,
     "name": "Mark Thompson",
     "company": "Enterprise Plus",
     "email": "mark.thompson@enterpriseplus.com",
@@ -70,7 +70,7 @@
     "nextAction": "Prepare demo materials"
   },
   {
-    "Id": 6,
+    "id": 6,
     "name": "Jennifer Lee",
     "company": "CloudFirst Technologies",
     "email": "jennifer.lee@cloudfirst.com",
@@ -84,7 +84,7 @@
     "nextAction": "Schedule technical demo"
   },
   {
-    "Id": 7,
+    "id": 7,
     "name": "Alex Rodriguez",
     "company": "InnovateLab",
     "email": "alex.rodriguez@innovatelab.com",
@@ -98,7 +98,7 @@
     "nextAction": "Create custom proposal"
   },
   {
-    "Id": 8,
+    "id": 8,
     "name": "Michelle Brown",
     "company": "DataDriven Corp",
     "email": "michelle.brown@datadriven.com",
@@ -112,7 +112,7 @@
     "nextAction": "Add to nurture campaign"
   },
   {
-    "Id": 9,
+    "id": 9,
     "name": "Kevin Martinez",
     "company": "FutureTech Systems",
     "email": "kevin.martinez@futuretech.com",
@@ -126,7 +126,7 @@
     "nextAction": "Address legal concerns"
   },
   {
-    "Id": 10,
+    "id": 10,
     "name": "Amanda White",
     "company": "ScaleUp Solutions",
     "email": "amanda.white@scaleup.com",
@@ -140,7 +140,7 @@
     "nextAction": "Send ROI analysis"
   },
   {
-    "Id": 11,
+    "id": 11,
     "name": "Steven Garcia",
     "company": "Digital Transformation Inc",
     "email": "steven.garcia@digitaltrans.com",
@@ -154,7 +154,7 @@
     "nextAction": "Research company background"
   },
   {
-    "Id": 12,
+    "id": 12,
     "name": "Rachel Taylor",
     "company": "AgileWorks",
     "email": "rachel.taylor@agileworks.com",
