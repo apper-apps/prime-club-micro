@@ -41,18 +41,18 @@ const DealTimeline = () => {
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
   ];
 
-  const getStatusColor = (status) => {
+const getStatusColor = (status) => {
     const statusColors = {
-      'connected': 'bg-blue-500',
-      'meeting_booked': 'bg-purple-500',
-      'meeting_done': 'bg-indigo-500',
-      'qualified': 'bg-green-500',
-      'proposal': 'bg-yellow-500',
-      'negotiation': 'bg-orange-500',
-      'locked': 'bg-red-500',
-      'closed': 'bg-emerald-500'
+      'connected': 'bg-accent-500',
+      'meeting_booked': 'bg-primary-500',
+      'meeting_done': 'bg-primary-600',
+      'qualified': 'bg-success-500',
+      'proposal': 'bg-gold-500',
+      'negotiation': 'bg-gold-600',
+      'locked': 'bg-coral-500',
+      'closed': 'bg-success-600'
     };
-    return statusColors[status] || 'bg-gray-500';
+    return statusColors[status] || 'bg-secondary-500';
   };
 
   const getStatusLabel = (status) => {
@@ -164,8 +164,8 @@ const DealTimeline = () => {
               </div>
 
               {/* Resizable Deal Bar */}
-              <Resizable
-                width={((deal.endMonth - deal.startMonth + 1) / 12) * 100}
+<Resizable
+                width={(((deal.endMonth - deal.startMonth + 1) / 12) * document.getElementById('timeline-container')?.offsetWidth) || 200}
                 height={56}
                 onResize={(e, direction, ref, delta, position) => {
                   const container = ref.parentElement;
@@ -205,9 +205,9 @@ const DealTimeline = () => {
                   height: '56px'
                 }}
               >
-                <div
-                  className={`w-full h-full ${getStatusColor(deal.status)} rounded shadow-sm transition-all cursor-move
-                    ${draggedDeal === deal.Id ? 'opacity-80 shadow-lg scale-105' : 'opacity-90 hover:opacity-100 hover:shadow-md'}
+<div
+                  className={`w-full h-full ${getStatusColor(deal.status)} rounded-lg shadow-card transition-all cursor-move
+                    ${draggedDeal === deal.Id ? 'opacity-90 shadow-premium scale-105' : 'opacity-95 hover:opacity-100 hover:shadow-card-hover'}
                   `}
                 >
                   <div className="flex items-center justify-between h-full px-3">
