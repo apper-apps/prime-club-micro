@@ -204,16 +204,16 @@ const getDealWidth = (startMonth, endMonth) => {
                   bottomLeft: false,
                   topLeft: false
                 }}
-                className="absolute"
+                className="absolute group"
                 style={{
                   left: getDealPosition(deal.startMonth),
                   top: '4px',
                   height: '56px'
                 }}
               >
-<div
-                  className={`w-full h-full ${getStatusColor(deal.status)} rounded-lg shadow-card transition-all cursor-move
-                    ${draggedDeal === deal.Id ? 'opacity-90 shadow-premium scale-105' : 'opacity-95 hover:opacity-100 hover:shadow-card-hover'}
+                <div
+                  className={`w-full h-full ${getStatusColor(deal.status)} rounded-lg shadow-card transition-all duration-200 cursor-move relative
+                    ${draggedDeal === deal.Id ? 'opacity-90 shadow-premium scale-105 ring-2 ring-white ring-opacity-50' : 'opacity-95 hover:opacity-100 hover:shadow-card-hover'}
                   `}
                 >
                   <div className="flex items-center justify-between h-full px-3">
@@ -230,15 +230,50 @@ const getDealWidth = (startMonth, endMonth) => {
                     </div>
                   </div>
                   
-                  {/* Resize Handles */}
-                  <div className="absolute left-0 top-0 bottom-0 w-2 bg-white bg-opacity-20 opacity-0 hover:opacity-100 cursor-ew-resize transition-opacity">
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded"></div>
+                  {/* Enhanced Resize Handles */}
+                  <div className="absolute left-0 top-0 bottom-0 w-3 bg-white bg-opacity-10 opacity-0 group-hover:opacity-100 cursor-ew-resize transition-all duration-200 flex items-center justify-center">
+                    <div className="w-1 h-8 bg-white rounded-full opacity-80"></div>
                   </div>
-                  <div className="absolute right-0 top-0 bottom-0 w-2 bg-white bg-opacity-20 opacity-0 hover:opacity-100 cursor-ew-resize transition-opacity">
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-3 bg-white bg-opacity-10 opacity-0 group-hover:opacity-100 cursor-ew-resize transition-all duration-200 flex items-center justify-center">
+                    <div className="w-1 h-8 bg-white rounded-full opacity-80"></div>
+                  </div>
+
+                  {/* Duration Tooltip */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    {deal.endMonth - deal.startMonth + 1} month{deal.endMonth - deal.startMonth + 1 > 1 ? 's' : ''}
                   </div>
                 </div>
               </Resizable>
+
+              {/* Width Control Buttons */}
+              <div className="absolute top-1 left-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center space-x-1">
+                <button
+                  onClick={() => {
+                    const currentMonthSpan = deal.endMonth - deal.startMonth + 1;
+                    if (currentMonthSpan > 1) {
+                      const newWidth = getDealWidth(deal.startMonth, deal.endMonth - 1);
+                      handleDealResize(deal.Id, newWidth, containerWidth);
+                    }
+                  }}
+                  className="w-5 h-5 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-white text-xs flex items-center justify-center transition-all duration-200"
+                  title="Decrease width"
+                >
+                  <ApperIcon name="Minus" size={10} />
+                </button>
+                <button
+                  onClick={() => {
+                    const currentMonthSpan = deal.endMonth - deal.startMonth + 1;
+                    if (deal.endMonth < 11) {
+                      const newWidth = getDealWidth(deal.startMonth, deal.endMonth + 1);
+                      handleDealResize(deal.Id, newWidth, containerWidth);
+                    }
+                  }}
+                  className="w-5 h-5 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-white text-xs flex items-center justify-center transition-all duration-200"
+                  title="Increase width"
+                >
+                  <ApperIcon name="Plus" size={10} />
+                </button>
+              </div>
 
               {/* Deal Info Overlay */}
               <div className="absolute top-1 right-1 pointer-events-none">
