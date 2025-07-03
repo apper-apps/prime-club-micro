@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "name": "Microsoft Teams Enterprise",
+    "company": "Microsoft Corporation",
+    "value": 450000,
+    "startMonth": 0,
+    "endMonth": 3,
+    "status": "negotiation",
+    "assignedTo": "Sarah Johnson",
+    "priority": "high"
+  },
+  {
+    "Id": 2,
+    "name": "Salesforce Enterprise Suite",
+    "company": "Salesforce Inc",
+    "value": 320000,
+    "startMonth": 1,
+    "endMonth": 4,
+    "status": "qualified",
+    "assignedTo": "Michael Chen",
+    "priority": "high"
+  },
+  {
+    "Id": 3,
+    "name": "Adobe Creative Cloud Business",
+    "company": "Adobe Systems",
+    "value": 180000,
+    "startMonth": 2,
+    "endMonth": 5,
+    "status": "proposal",
+    "assignedTo": "Jessica Rodriguez",
+    "priority": "medium"
+  },
+  {
+    "Id": 4,
+    "name": "Slack Enterprise Grid",
+    "company": "Slack Technologies",
+    "value": 275000,
+    "startMonth": 3,
+    "endMonth": 7,
+    "status": "meeting_booked",
+    "assignedTo": "David Park",
+    "priority": "high"
+  },
+  {
+    "Id": 5,
+    "name": "Zoom Enterprise Package",
+    "company": "Zoom Video Communications",
+    "value": 95000,
+    "startMonth": 4,
+    "endMonth": 6,
+    "status": "connected",
+    "assignedTo": "Sarah Johnson",
+    "priority": "medium"
+  },
+  {
+    "Id": 6,
+    "name": "Atlassian Enterprise Suite",
+    "company": "Atlassian Corporation",
+    "value": 210000,
+    "startMonth": 5,
+    "endMonth": 8,
+    "status": "locked",
+    "assignedTo": "Michael Chen",
+    "priority": "high"
+  },
+  {
+    "Id": 7,
+    "name": "GitHub Enterprise Server",
+    "company": "GitHub Inc",
+    "value": 125000,
+    "startMonth": 6,
+    "endMonth": 10,
+    "status": "meeting_done",
+    "assignedTo": "Jessica Rodriguez",
+    "priority": "medium"
+  },
+  {
+    "Id": 8,
+    "name": "Figma Enterprise Plan",
+    "company": "Figma Inc",
+    "value": 85000,
+    "startMonth": 8,
+    "endMonth": 11,
+    "status": "connected",
+    "assignedTo": "David Park",
+    "priority": "low"
+  }
+]
