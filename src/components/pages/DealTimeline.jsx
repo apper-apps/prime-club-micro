@@ -8,9 +8,10 @@ import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
 import { leadService } from "@/services/api/leadService";
 const DealTimeline = () => {
-  const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [draggedDeal, setDraggedDeal] = useState(null);
+  const [timelineReady, setTimelineReady] = useState(false);
   const timelineRef = useRef(null);
 
   // Sample deal data with month ranges - now stateful for drag updates
@@ -85,9 +86,38 @@ const DealTimeline = () => {
     }
   };
 
-  useEffect(() => {
-    loadData();
+useEffect(() => {
+    const initializeData = async () => {
+      try {
+        await loadData();
+      } catch (err) {
+        console.error('Failed to load timeline data:', err);
+        setError('Failed to load timeline data. Please try again.');
+      }
+    };
+    
+    initializeData();
   }, []);
+
+  // Timeline initialization effect
+  useEffect(() => {
+    const checkTimelineReady = () => {
+      if (timelineRef.current && timelineRef.current.offsetWidth > 0) {
+        setTimelineReady(true);
+      }
+    };
+
+    checkTimelineReady();
+    
+    const resizeObserver = new ResizeObserver(checkTimelineReady);
+    if (timelineRef.current) {
+      resizeObserver.observe(timelineRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [deals]);
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadData} />;
@@ -112,28 +142,34 @@ const DealTimeline = () => {
     return Math.max(0, Math.min(11, month));
   };
 
-  // Handle drag for repositioning entire deal
+// Handle drag for repositioning entire deal
   const handleDrag = (dealId, data) => {
-    if (!timelineRef.current) return;
+    if (!timelineRef.current || !timelineReady) return;
     
-    const timelineWidth = timelineRef.current.offsetWidth;
-    const newStartMonth = pixelToMonth(data.x, timelineWidth);
-    
-    setDeals(prevDeals => 
-      prevDeals.map(deal => {
-        if (deal.id === dealId) {
-          const duration = deal.endMonth - deal.startMonth;
-          const newEndMonth = Math.min(11, newStartMonth + duration);
-          return {
-            ...deal,
-            startMonth: newStartMonth,
-            endMonth: newEndMonth
-          };
-        }
-        return deal;
-      })
-    );
-};
+    try {
+      const timelineWidth = timelineRef.current.offsetWidth;
+      if (timelineWidth <= 0) return;
+      
+      const newStartMonth = pixelToMonth(data.x, timelineWidth);
+      
+      setDeals(prevDeals => 
+        prevDeals.map(deal => {
+          if (deal.id === dealId) {
+            const duration = deal.endMonth - deal.startMonth;
+            const newEndMonth = Math.min(11, newStartMonth + duration);
+            return {
+              ...deal,
+              startMonth: Math.max(0, newStartMonth),
+              endMonth: Math.max(newStartMonth + 1, newEndMonth)
+            };
+          }
+          return deal;
+        })
+      );
+    } catch (err) {
+      console.error('Error during drag operation:', err);
+    }
+  };
 
   // Handle drag stop to finalize position
   const handleDragStop = (dealId, data) => {
@@ -231,51 +267,70 @@ const DealTimeline = () => {
 
               {/* Deal Bar - Desktop Draggable Version */}
               <div className="hidden md:block">
-                <Draggable
-                  axis="x"
-                  bounds="parent"
-                  position={{
-                    x: (deal.startMonth / 12) * (timelineRef.current?.offsetWidth || 1000),
-                    y: 0
-                  }}
-                  onDrag={(e, data) => handleDrag(deal.id, data)}
-                  onStop={(e, data) => handleDragStop(deal.id, data)}
-                  onStart={() => setDraggedDeal(deal.id)}
-                >
+{timelineReady && timelineRef.current ? (
+                  <Draggable
+                    axis="x"
+                    bounds="parent"
+                    position={{
+                      x: Math.max(0, (deal.startMonth / 12) * timelineRef.current.offsetWidth),
+                      y: 0
+                    }}
+                    onDrag={(e, data) => handleDrag(deal.id, data)}
+                    onStop={(e, data) => handleDragStop(deal.id, data)}
+                    onStart={() => setDraggedDeal(deal.id)}
+                  >
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: getDealWidth(deal.startMonth, deal.endMonth) }}
+                      transition={{ delay: index * 0.1 + 0.3, duration: 0.6 }}
+                      className={`absolute top-1 bottom-1 ${deal.color} rounded opacity-80 hover:opacity-100 transition-all cursor-move shadow-sm group`}
+                      style={{
+                        minWidth: '60px',
+                        zIndex: draggedDeal === deal.id ? 10 : 1
+                      }}
+                    >
+                      {/* Left resize handle */}
+                      <div 
+                        className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
+                        onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'left')}
+                      />
+
+                      {/* Deal content */}
+                      <div className="flex items-center h-full px-3 pointer-events-none">
+                        <span className="text-white text-sm font-medium truncate">
+                          {deal.name}
+                        </span>
+                      </div>
+
+                      {/* Right resize handle */}
+                      <div 
+                        className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
+                        onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'right')}
+                      />
+
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-60 transition-opacity pointer-events-none">
+                        <ApperIcon name="GripHorizontal" size={16} className="text-white" />
+                      </div>
+                    </motion.div>
+                  </Draggable>
+                ) : (
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: getDealWidth(deal.startMonth, deal.endMonth) }}
                     transition={{ delay: index * 0.1 + 0.3, duration: 0.6 }}
-                    className={`absolute top-1 bottom-1 ${deal.color} rounded opacity-80 hover:opacity-100 transition-all cursor-move shadow-sm group`}
+                    className={`absolute top-1 bottom-1 ${deal.color} rounded opacity-80 shadow-sm`}
                     style={{
                       minWidth: '60px',
-                      zIndex: draggedDeal === deal.id ? 10 : 1
+                      left: `${(deal.startMonth / 12) * 100}%`
                     }}
                   >
-{/* Left resize handle */}
-                    <div 
-                      className="absolute left-0 top-0 bottom-0 w-2 cursor-w-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
-                      onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'left')}
-                    />
-
-                    {/* Deal content */}
-                    <div className="flex items-center h-full px-3 pointer-events-none">
+                    <div className="flex items-center h-full px-3">
                       <span className="text-white text-sm font-medium truncate">
                         {deal.name}
                       </span>
                     </div>
-
-                    {/* Right resize handle */}
-                    <div 
-                      className="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize opacity-0 group-hover:opacity-100 hover:bg-white hover:bg-opacity-30 transition-opacity z-20"
-                      onMouseDown={(e) => handleResizeMouseDown(e, deal.id, 'right')}
-                    />
-
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-60 transition-opacity pointer-events-none">
-                      <ApperIcon name="GripHorizontal" size={16} className="text-white" />
-                    </div>
                   </motion.div>
-                </Draggable>
+                )}
               </div>
 
               {/* Deal Bar - Mobile Static Version */}
