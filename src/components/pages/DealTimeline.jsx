@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Resizable } from "react-resizable";
 import { toast } from "react-toastify";
 import { formatCurrency } from "@/utils/formatters";
 import ApperIcon from "@/components/ApperIcon";
 import Badge from "@/components/atoms/Badge";
 import Card from "@/components/atoms/Card";
-import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
 import { dealService } from "@/services/api/dealService";
 
@@ -15,7 +15,10 @@ const DealTimeline = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [draggedDeal, setDraggedDeal] = useState(null);
-  const loadDeals = async () => {
+  const [containerWidth, setContainerWidth] = useState(800);
+  const timelineContainerRef = useRef(null);
+  
+const loadDeals = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -28,14 +31,24 @@ const DealTimeline = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
+useEffect(() => {
     loadDeals();
   }, []);
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      if (timelineContainerRef.current) {
+        setContainerWidth(timelineContainerRef.current.offsetWidth);
+      }
+    };
+
+    updateContainerWidth();
+    window.addEventListener('resize', updateContainerWidth);
+    
+    return () => window.removeEventListener('resize', updateContainerWidth);
+  }, [deals]);
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadDeals} />;
-
   const months = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -78,14 +91,14 @@ const getStatusColor = (status) => {
     return colors[priority] || 'bg-gray-100 text-gray-800';
   };
 
-  const getDealWidth = (startMonth, endMonth) => {
+const getDealWidth = (startMonth, endMonth) => {
     const monthSpan = endMonth - startMonth + 1;
-    return `${(monthSpan / 12) * 100}%`;
+    return (monthSpan / 12) * containerWidth;
   };
 
   const getDealPosition = (startMonth) => {
     return `${(startMonth / 12) * 100}%`;
-};
+  };
 
   const handleDealResize = async (dealId, newWidth, containerWidth) => {
     const monthSpan = Math.max(1, Math.round((newWidth / containerWidth) * 12));
@@ -146,8 +159,8 @@ const getStatusColor = (status) => {
           ))}
         </div>
 
-        {/* Deal Timeline Bars */}
-<div className="space-y-3" id="timeline-container">
+{/* Deal Timeline Bars */}
+        <div className="space-y-3" ref={timelineContainerRef}>
           {deals.map((deal, index) => (
             <div
               key={deal.Id}
@@ -163,25 +176,18 @@ const getStatusColor = (status) => {
                 ))}
               </div>
 
-              {/* Resizable Deal Bar */}
-<Resizable
-                width={(((deal.endMonth - deal.startMonth + 1) / 12) * document.getElementById('timeline-container')?.offsetWidth) || 200}
+{/* Resizable Deal Bar */}
+              <Resizable
+                width={getDealWidth(deal.startMonth, deal.endMonth)}
                 height={56}
                 onResize={(e, direction, ref, delta, position) => {
-                  const container = ref.parentElement;
-                  const containerWidth = container.offsetWidth;
-                  const newWidth = ref.offsetWidth;
-                  
                   // Update visual feedback during resize
                   if (draggedDeal !== deal.Id) {
                     setDraggedDeal(deal.Id);
                   }
                 }}
                 onResizeStop={(e, direction, ref, delta, position) => {
-                  const container = ref.parentElement;
-                  const containerWidth = container.offsetWidth;
                   const newWidth = ref.offsetWidth;
-                  
                   handleDealResize(deal.Id, newWidth, containerWidth);
                   handleDragStop();
                 }}
