@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Resizable } from "react-resizable";
+import { toast } from "react-toastify";
 import { formatCurrency } from "@/utils/formatters";
 import ApperIcon from "@/components/ApperIcon";
-import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
-import Error from "@/components/ui/Error";
+import Card from "@/components/atoms/Card";
 import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import { dealService } from "@/services/api/dealService";
-import { Resizable } from "react-draggable";
-import { toast } from "react-toastify";
+
 const DealTimeline = () => {
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
