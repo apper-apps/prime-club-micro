@@ -59,6 +59,23 @@ class DealService {
     return true
   }
 
+async updateDealTimeline(id, startMonth, endMonth) {
+    await this.delay()
+    const index = this.deals.findIndex(deal => deal.Id === id)
+    if (index === -1) {
+      throw new Error('Deal not found')
+    }
+    
+    this.deals[index] = {
+      ...this.deals[index],
+      startMonth,
+      endMonth,
+      updatedAt: new Date().toISOString()
+    }
+    
+    return { ...this.deals[index] }
+  }
+
   delay() {
     return new Promise(resolve => setTimeout(resolve, 250))
   }

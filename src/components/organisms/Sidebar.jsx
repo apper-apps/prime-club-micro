@@ -10,10 +10,10 @@ const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: 'LayoutDashboard' },
     { name: 'Pipeline', href: '/pipeline', icon: 'GitBranch' },
     { name: 'Calendar', href: '/calendar', icon: 'Calendar' },
+    { name: 'Deal Timeline', href: '/deal-timeline', icon: 'Calendar' },
     { name: 'Leaderboard', href: '/leaderboard', icon: 'Trophy' },
     { name: 'Leads', href: '/leads', icon: 'Users' },
   ]
-  
 return (
     <div className="flex flex-col w-70 bg-white border-r border-gray-200 shadow-soft">
       {/* Header */}
