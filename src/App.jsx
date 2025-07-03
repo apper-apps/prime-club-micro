@@ -5,10 +5,8 @@ import Layout from '@/components/organisms/Layout'
 import Dashboard from '@/components/pages/Dashboard'
 import Pipeline from '@/components/pages/Pipeline'
 import Calendar from '@/components/pages/Calendar'
-import DealTimeline from '@/components/pages/DealTimeline'
 import Leaderboard from '@/components/pages/Leaderboard'
 import Leads from '@/components/pages/Leads'
-
 function App() {
   return (
 <BrowserRouter>
@@ -19,7 +17,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/pipeline" element={<Pipeline />} />
             <Route path="/calendar" element={<Calendar />} />
-            <Route path="/deal-timeline" element={<DealTimeline />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/leads" element={<Leads />} />
           </Routes>
