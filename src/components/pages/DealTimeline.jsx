@@ -7,12 +7,13 @@ import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Loading from "@/components/ui/Loading";
 import { dealService } from "@/services/api/dealService";
-
+import { Resizable } from "react-draggable";
+import { toast } from "react-toastify";
 const DealTimeline = () => {
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [draggedDeal, setDraggedDeal] = useState(null);
   const loadDeals = async () => {
     try {
       setLoading(true);
@@ -83,6 +84,36 @@ const DealTimeline = () => {
 
   const getDealPosition = (startMonth) => {
     return `${(startMonth / 12) * 100}%`;
+};
+
+  const handleDealResize = async (dealId, newWidth, containerWidth) => {
+    const monthSpan = Math.max(1, Math.round((newWidth / containerWidth) * 12));
+    const deal = deals.find(d => d.Id === dealId);
+    if (!deal) return;
+
+    const newEndMonth = Math.min(11, deal.startMonth + monthSpan - 1);
+    
+    try {
+      const updatedDeal = { ...deal, endMonth: newEndMonth };
+      await dealService.update(dealId, updatedDeal);
+      
+      setDeals(prevDeals => 
+        prevDeals.map(d => d.Id === dealId ? updatedDeal : d)
+      );
+      
+      toast.success(`Updated "${deal.name}" duration to ${monthSpan} month${monthSpan > 1 ? 's' : ''}`);
+    } catch (error) {
+      console.error('Failed to update deal:', error);
+      toast.error('Failed to update deal duration');
+    }
+  };
+
+  const handleDragStart = (dealId) => {
+    setDraggedDeal(dealId);
+  };
+
+  const handleDragStop = () => {
+    setDraggedDeal(null);
   };
 
   return (
@@ -92,35 +123,8 @@ const DealTimeline = () => {
         <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
           Deal Timeline
         </h1>
-        <p className="text-gray-600">Track your deals throughout the year</p>
+        <p className="text-gray-600">Drag the edges of deal tiles to adjust duration</p>
       </div>
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Card padding="md" className="text-center">
-          <div className="text-2xl font-bold text-primary-600">{deals.length}</div>
-          <div className="text-sm text-gray-600">Total Deals</div>
-        </Card>
-        <Card padding="md" className="text-center">
-          <div className="text-2xl font-bold text-green-600">
-            {formatCurrency(deals.reduce((sum, deal) => sum + deal.value, 0))}
-          </div>
-          <div className="text-sm text-gray-600">Total Value</div>
-        </Card>
-        <Card padding="md" className="text-center">
-          <div className="text-2xl font-bold text-blue-600">
-            {deals.filter(deal => deal.status === 'closed').length}
-          </div>
-          <div className="text-sm text-gray-600">Closed Deals</div>
-        </Card>
-        <Card padding="md" className="text-center">
-          <div className="text-2xl font-bold text-orange-600">
-            {deals.filter(deal => deal.priority === 'high').length}
-          </div>
-          <div className="text-sm text-gray-600">High Priority</div>
-        </Card>
-      </div>
-
       {/* Timeline View */}
       <Card padding="lg" className="overflow-hidden">
         <div className="mb-6">
@@ -142,11 +146,11 @@ const DealTimeline = () => {
         </div>
 
         {/* Deal Timeline Bars */}
-        <div className="space-y-3">
+<div className="space-y-3" id="timeline-container">
           {deals.map((deal, index) => (
             <div
               key={deal.Id}
-              className="relative h-16 bg-gray-50 rounded-lg overflow-hidden border"
+              className="relative h-16 bg-gray-50 rounded-lg overflow-visible border"
             >
               {/* Month Grid Background */}
               <div className="absolute inset-0 grid grid-cols-12">
@@ -158,32 +162,79 @@ const DealTimeline = () => {
                 ))}
               </div>
 
-              {/* Deal Bar */}
-              <div
-                className={`absolute top-1 bottom-1 ${getStatusColor(deal.status)} rounded opacity-90 shadow-sm transition-all hover:opacity-100 hover:shadow-md`}
+              {/* Resizable Deal Bar */}
+              <Resizable
+                width={((deal.endMonth - deal.startMonth + 1) / 12) * 100}
+                height={56}
+                onResize={(e, direction, ref, delta, position) => {
+                  const container = ref.parentElement;
+                  const containerWidth = container.offsetWidth;
+                  const newWidth = ref.offsetWidth;
+                  
+                  // Update visual feedback during resize
+                  if (draggedDeal !== deal.Id) {
+                    setDraggedDeal(deal.Id);
+                  }
+                }}
+                onResizeStop={(e, direction, ref, delta, position) => {
+                  const container = ref.parentElement;
+                  const containerWidth = container.offsetWidth;
+                  const newWidth = ref.offsetWidth;
+                  
+                  handleDealResize(deal.Id, newWidth, containerWidth);
+                  handleDragStop();
+                }}
+                onResizeStart={() => handleDragStart(deal.Id)}
+                minWidth={80}
+                maxWidth="100%"
+                enable={{
+                  top: false,
+                  right: true,
+                  bottom: false,
+                  left: true,
+                  topRight: false,
+                  bottomRight: false,
+                  bottomLeft: false,
+                  topLeft: false
+                }}
+                className="absolute"
                 style={{
                   left: getDealPosition(deal.startMonth),
-                  width: getDealWidth(deal.startMonth, deal.endMonth),
-                  minWidth: '80px'
+                  top: '4px',
+                  height: '56px'
                 }}
               >
-                <div className="flex items-center justify-between h-full px-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-white text-sm font-medium truncate">
-                      {deal.name}
+                <div
+                  className={`w-full h-full ${getStatusColor(deal.status)} rounded shadow-sm transition-all cursor-move
+                    ${draggedDeal === deal.Id ? 'opacity-80 shadow-lg scale-105' : 'opacity-90 hover:opacity-100 hover:shadow-md'}
+                  `}
+                >
+                  <div className="flex items-center justify-between h-full px-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white text-sm font-medium truncate">
+                        {deal.name}
+                      </div>
+                      <div className="text-white text-xs opacity-90 truncate">
+                        {deal.company}
+                      </div>
                     </div>
-                    <div className="text-white text-xs opacity-90 truncate">
-                      {deal.company}
+                    <div className="ml-2 text-white text-xs font-medium">
+                      {formatCurrency(deal.value, true)}
                     </div>
                   </div>
-                  <div className="ml-2 text-white text-xs font-medium">
-                    {formatCurrency(deal.value, true)}
+                  
+                  {/* Resize Handles */}
+                  <div className="absolute left-0 top-0 bottom-0 w-2 bg-white bg-opacity-20 opacity-0 hover:opacity-100 cursor-ew-resize transition-opacity">
+                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded"></div>
+                  </div>
+                  <div className="absolute right-0 top-0 bottom-0 w-2 bg-white bg-opacity-20 opacity-0 hover:opacity-100 cursor-ew-resize transition-opacity">
+                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded"></div>
                   </div>
                 </div>
-              </div>
+              </Resizable>
 
               {/* Deal Info Overlay */}
-              <div className="absolute top-1 right-1">
+              <div className="absolute top-1 right-1 pointer-events-none">
                 <Badge variant="outline" className={`text-xs ${getPriorityColor(deal.priority)}`}>
                   {deal.priority.toUpperCase()}
                 </Badge>
@@ -192,53 +243,7 @@ const DealTimeline = () => {
           ))}
         </div>
       </Card>
-
-      {/* Deal List - Mobile and Additional Info */}
-      <Card padding="lg">
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Deal Details</h2>
-          <p className="text-sm text-gray-600">Complete list with status and timeline information</p>
-        </div>
-
-        <div className="space-y-4">
-          {deals.map((deal) => (
-            <div
-              key={deal.Id}
-              className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors"
-            >
-              <div className="flex items-center space-x-4 mb-3 md:mb-0">
-                <div className={`w-4 h-4 rounded ${getStatusColor(deal.status)}`}></div>
-                <div>
-                  <div className="font-medium text-gray-900">{deal.name}</div>
-                  <div className="text-sm text-gray-600">{deal.company}</div>
-                  <div className="text-xs text-gray-500">
-                    {months[deal.startMonth]} - {months[deal.endMonth]} 2024
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4">
-                <Badge variant="outline" className="w-fit">
-                  {getStatusLabel(deal.status)}
-                </Badge>
-                <Badge variant="outline" className={`w-fit ${getPriorityColor(deal.priority)}`}>
-                  {deal.priority.toUpperCase()}
-                </Badge>
-                <div className="text-right">
-                  <div className="font-semibold text-gray-900">
-                    {formatCurrency(deal.value)}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {deal.assignedTo}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      {/* Empty State */}
+{/* Empty State */}
       {deals.length === 0 && (
         <Empty
           icon="Calendar"
