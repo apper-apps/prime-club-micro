@@ -16,11 +16,11 @@ const ProgressRing = ({
     xl: { width: 100, stroke: 6, text: 'text-lg' }
   }
   
-  const colors = {
+const colors = {
     primary: 'stroke-primary-600',
-    success: 'stroke-green-500',
+    success: 'stroke-success-500',
     warning: 'stroke-gold-500',
-    danger: 'stroke-red-500'
+    danger: 'stroke-coral-500'
   }
   
   const { width, stroke, text } = sizes[size]

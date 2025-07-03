@@ -19,8 +19,8 @@ return (
     <div className="flex flex-col w-70 bg-white border-r border-gray-200 shadow-soft">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-100">
-        <div className="flex items-center space-x-3">
-          <div className="h-12 w-12 bg-gradient-to-br from-primary-500 to-coral-600 rounded-2xl flex items-center justify-center shadow-glow">
+<div className="flex items-center space-x-3">
+          <div className="h-12 w-12 bg-gradient-to-br from-primary-500 to-accent-600 rounded-2xl flex items-center justify-center shadow-glow">
             <ApperIcon name="Crown" className="h-7 w-7 text-white" />
           </div>
           <div>
@@ -52,9 +52,9 @@ return (
               className={({ isActive: linkActive }) => {
                 const active = linkActive || isActive
                 return `
-                  flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group
+flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group
                   ${active 
-                    ? 'bg-gradient-to-r from-primary-500 to-coral-600 text-white shadow-soft' 
+                    ? 'bg-gradient-to-r from-primary-500 to-accent-600 text-white shadow-soft' 
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                   }
                 `
@@ -86,10 +86,10 @@ return (
       </nav>
       
 {/* Footer */}
-      <div className="p-4 border-t border-gray-100">
-        <div className="bg-gradient-to-r from-warm-50 to-primary-50 rounded-xl p-4 border border-primary-100">
+<div className="p-4 border-t border-gray-100">
+        <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-xl p-4 border border-primary-100">
           <div className="flex items-center space-x-3">
-<div className="h-10 w-10 bg-gradient-to-br from-gold-500 to-teal-500 rounded-xl flex items-center justify-center shadow-soft">
+<div className="h-10 w-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-soft">
               <ApperIcon name="Zap" className="h-5 w-5 text-white" />
             </div>
             <div>

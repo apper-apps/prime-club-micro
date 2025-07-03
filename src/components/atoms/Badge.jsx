@@ -8,13 +8,13 @@ const Badge = ({
   ...props 
 }) => {
   const variants = {
-    default: "bg-gray-100 text-gray-800",
-primary: "bg-gradient-to-r from-gold-100 to-gold-200 text-gold-800",
-    success: "bg-gradient-to-r from-green-100 to-green-200 text-green-800",
+default: "bg-gray-100 text-gray-800",
+primary: "bg-gradient-to-r from-primary-100 to-primary-200 text-primary-800",
+    success: "bg-gradient-to-r from-success-100 to-success-200 text-success-800",
     warning: "bg-gradient-to-r from-gold-100 to-gold-200 text-gold-800",
-    danger: "bg-gradient-to-r from-red-100 to-red-200 text-red-800",
-    info: "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800",
-    hunter: "bg-gradient-to-r from-gold-400 to-gold-600 text-white shadow-lg hunter-badge"
+    danger: "bg-gradient-to-r from-coral-100 to-coral-200 text-coral-800",
+    info: "bg-gradient-to-r from-accent-100 to-accent-200 text-accent-800",
+    hunter: "bg-gradient-to-r from-primary-400 to-accent-600 text-white shadow-lg hunter-badge"
   }
   
   const sizes = {

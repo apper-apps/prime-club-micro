@@ -81,7 +81,7 @@ const Pipeline = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
 <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-coral-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Sales Pipeline
           </h1>
           <p className="text-gray-600 mt-1">
@@ -113,8 +113,8 @@ const Pipeline = () => {
             </div>
             <div className="text-sm text-gray-600">Closed Deals</div>
           </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-gold-600 mb-1">
+<div className="text-center">
+            <div className="text-3xl font-bold text-primary-600 mb-1">
               ${(totalValue / 1000).toFixed(0)}K
             </div>
             <div className="text-sm text-gray-600">Pipeline Value</div>

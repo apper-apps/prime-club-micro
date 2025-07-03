@@ -16,8 +16,8 @@ return (
             onClick={onMenuClick}
             className="lg:hidden"
           />
-          <div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-coral-600 bg-clip-text text-transparent">
+<div>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
               Welcome back, Sarah
             </h2>
             <p className="text-gray-600 font-medium">Here's what's happening with your sales today</p>
@@ -29,8 +29,8 @@ return (
             whileHover={{ scale: 1.05 }}
             className="relative"
           >
-            <Button variant="ghost" size="sm" icon="Bell" className="relative">
-              <span className="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-coral-500 to-primary-600 text-white text-xs rounded-full flex items-center justify-center font-semibold shadow-soft">
+<Button variant="ghost" size="sm" icon="Bell" className="relative">
+              <span className="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-primary-500 to-accent-600 text-white text-xs rounded-full flex items-center justify-center font-semibold shadow-soft">
                 3
               </span>
             </Button>
@@ -40,8 +40,8 @@ return (
             <div className="hidden md:block text-right">
               <p className="text-sm font-semibold text-gray-900">Sarah Johnson</p>
               <p className="text-xs text-gray-500 font-medium">Sales Manager</p>
-            </div>
-<Avatar name="Sarah Johnson" size="lg" className="ring-2 ring-gold-100" />
+</div>
+<Avatar name="Sarah Johnson" size="lg" className="ring-2 ring-primary-100" />
             <ApperIcon name="ChevronDown" className="h-4 w-4 text-gray-400" />
           </div>
         </div>

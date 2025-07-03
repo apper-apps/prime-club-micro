@@ -12,7 +12,7 @@ import Leads from '@/components/pages/Leads'
 function App() {
   return (
 <BrowserRouter>
-      <div className="min-h-screen bg-gradient-to-br from-warm-50 via-white to-primary-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-slate-50">
         <Layout>
 <Routes>
             <Route path="/" element={<Dashboard />} />

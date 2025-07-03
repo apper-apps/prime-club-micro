@@ -91,7 +91,7 @@ const Leaderboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
 <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-coral-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Sales Leaderboard
           </h1>
           <p className="text-gray-600 mt-1">
@@ -129,13 +129,13 @@ const Leaderboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative"
-        >
-          <Card padding="lg" className="bg-gradient-to-r from-gold-50 to-gold-100 border-2 border-gold-200">
+>
+          <Card padding="lg" className="bg-gradient-to-r from-primary-50 to-accent-50 border-2 border-primary-200">
             <div className="text-center mb-6">
               <motion.div
                 animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gold-400 to-gold-600 rounded-full mb-4 shadow-lg hunter-badge"
+transition={{ duration: 2, repeat: Infinity }}
+                className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-400 to-accent-600 rounded-full mb-4 shadow-lg hunter-badge"
               >
                 <ApperIcon name="Crown" className="h-10 w-10 text-white" />
               </motion.div>
@@ -157,20 +157,20 @@ const Leaderboard = () => {
                   {hunterOfTheMonth.name}
                 </h3>
                 <div className="grid grid-cols-3 gap-6 text-center">
-                  <div>
-                    <div className="text-3xl font-bold text-gold-600">
+<div>
+                    <div className="text-3xl font-bold text-primary-600">
                       {hunterOfTheMonth.closedDeals}
                     </div>
                     <div className="text-sm text-gray-600">Deals Closed</div>
                   </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gold-600">
+<div>
+                    <div className="text-3xl font-bold text-primary-600">
                       ${(hunterOfTheMonth.totalRevenue / 1000).toFixed(0)}K
                     </div>
                     <div className="text-sm text-gray-600">Revenue</div>
                   </div>
-                  <div>
-                    <div className="text-3xl font-bold text-gold-600">
+<div>
+                    <div className="text-3xl font-bold text-primary-600">
                       {hunterOfTheMonth.winRate.toFixed(1)}%
                     </div>
                     <div className="text-sm text-gray-600">Win Rate</div>
@@ -184,8 +184,8 @@ const Leaderboard = () => {
 
       {/* Full Leaderboard */}
       <Card padding="lg">
-        <div className="flex items-center mb-6">
-          <ApperIcon name="Trophy" className="mr-3 h-6 w-6 text-gold-500" />
+<div className="flex items-center mb-6">
+          <ApperIcon name="Trophy" className="mr-3 h-6 w-6 text-primary-500" />
           <h2 className="text-xl font-bold text-gray-900">Team Rankings</h2>
         </div>
 
@@ -199,10 +199,10 @@ const Leaderboard = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={`
-                  p-6 rounded-xl border-2 transition-all duration-200 hover:shadow-lg
+p-6 rounded-xl border-2 transition-all duration-200 hover:shadow-lg
                   ${rank === 1 
-                    ? 'bg-gradient-to-r from-gold-50 to-gold-100 border-gold-200' 
-                    : rank === 2 
+                    ? 'bg-gradient-to-r from-primary-50 to-accent-50 border-primary-200' 
+                    : rank === 2
                     ? 'bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200'
                     : rank === 3
                     ? 'bg-gradient-to-r from-amber-50 to-amber-100 border-amber-200'
@@ -214,8 +214,8 @@ const Leaderboard = () => {
                   {/* Rank */}
                   <div className="flex items-center space-x-3">
                     <div className={`
-                      w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg
-                      ${rank === 1 ? 'bg-gradient-to-br from-gold-400 to-gold-600' :
+w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg
+                      ${rank === 1 ? 'bg-gradient-to-br from-primary-400 to-accent-600' :
                         rank === 2 ? 'bg-gradient-to-br from-gray-400 to-gray-600' :
                         rank === 3 ? 'bg-gradient-to-br from-amber-400 to-amber-600' :
                         'bg-gradient-to-br from-gray-300 to-gray-500'
@@ -234,8 +234,8 @@ const Leaderboard = () => {
                     <Avatar 
                       name={rep.name} 
                       src={rep.photo} 
-                      size="lg"
-                      className={rank === 1 ? 'border-2 border-gold-300' : ''}
+size="lg"
+                      className={rank === 1 ? 'border-2 border-primary-300' : ''}
                     />
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 flex items-center">

@@ -32,8 +32,8 @@ const Avatar = ({
   const generateColor = (name) => {
     if (!name) return 'bg-gray-500'
 const colors = [
-      'bg-teal-500', 'bg-sage-500', 'bg-gold-500', 'bg-cream-500',
-      'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-gray-500'
+      'bg-primary-500', 'bg-accent-500', 'bg-gold-500', 'bg-success-500',
+      'bg-blue-500', 'bg-purple-500', 'bg-coral-500', 'bg-gray-500'
     ]
     const index = name.charCodeAt(0) % colors.length
     return colors[index]

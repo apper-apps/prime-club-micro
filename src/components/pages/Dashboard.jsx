@@ -81,7 +81,8 @@ const Dashboard = () => {
           color="info"
 color="secondary"
         />
-        <MetricCard
+<MetricCard
+          title="Pipeline Value"
           value={`$${(totalValue / 1000).toFixed(0)}K`}
           icon="DollarSign"
           trend="up"
@@ -154,8 +155,8 @@ color="secondary"
         {/* Recent Wins */}
         <Card padding="lg">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-gray-900 flex items-center">
-              <ApperIcon name="Trophy" className="mr-3 h-6 w-6 text-gold-500" />
+<h3 className="text-xl font-bold text-gray-900 flex items-center">
+              <ApperIcon name="Trophy" className="mr-3 h-6 w-6 text-primary-500" />
               Recent Wins
             </h3>
           </div>

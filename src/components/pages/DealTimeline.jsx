@@ -120,8 +120,8 @@ const DealTimeline = () => {
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
       {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+<div className="space-y-2">
+        <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
           Deal Timeline
         </h1>
         <p className="text-gray-600">Drag the edges of deal tiles to adjust duration</p>

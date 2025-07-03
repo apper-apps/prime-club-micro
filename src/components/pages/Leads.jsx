@@ -106,7 +106,7 @@ const Leads = () => {
       {/* Header */}
 <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-coral-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
             Leads Management
           </h1>
           <p className="text-gray-600 mt-2 font-medium">
